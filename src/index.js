@@ -16,3 +16,5 @@ app.use(productRouter)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => console.log(`Servidor funcionando na porta ${PORT}`))
+
+
