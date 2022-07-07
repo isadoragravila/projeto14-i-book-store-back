@@ -9,6 +9,12 @@ export async function signUp(req, res) {
 
   try {
     await db.collection('users').insertOne({ ...user, password: hashPassword })
+    const userDB = await db.collection('users').findOne({ email: user.email })
+
+    if(userDB){
+      await db.collection('carts').insertOne({userId: userDB._id, products: []})
+    }
+
     res.status(201).send('Usuário cadastrado com sucesso!!')
   } catch (error) {
     res.status(500).send('Ocorreu um erro :(, tente novamente!!')
