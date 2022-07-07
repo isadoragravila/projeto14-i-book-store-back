@@ -2,7 +2,8 @@ import { db, objectId } from '../databases/mongo.js';
 
 export async function insertProduct(req, res) {
     try {
-        const { userId, productId } = req.body;
+        const userId = res.locals.userId;
+        const { productId } = req.body;
 
         await db.collection('carts').updateOne(
             { userId: new objectId(userId) },
