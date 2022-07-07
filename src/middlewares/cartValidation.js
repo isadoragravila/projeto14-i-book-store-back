@@ -8,7 +8,7 @@ async function cartValidation(req, res, next) {
     return res.sendStatus(422)
   };
 
-  const { userId } = req.body;
+  const userId = res.locals.userId;
 
   const cart = await db.collection('carts').findOne({ userId: new objectId(userId) });
 
