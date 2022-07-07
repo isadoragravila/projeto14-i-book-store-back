@@ -15,3 +15,16 @@ export async function insertProduct(req, res) {
         res.status(500).send(error);
     }
 };
+
+export async function insertSale(req, res) {
+    try {
+        const userId = res.locals.userId;
+        const sale = req.body;
+
+        await db.collection('sales').insertOne({ userId, ...sale });
+
+        return res.sendStatus(201);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
