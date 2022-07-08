@@ -28,3 +28,18 @@ export async function insertSale(req, res) {
         res.status(500).send(error);
     }
 };
+
+export async function cleanCart(req, res) {
+    try {
+        const userId = res.locals.userId;
+
+        await db.collection('carts').updateOne(
+            { userId },
+            { $set: { products: [] }}
+        );
+
+        return res.sendStatus(200);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
