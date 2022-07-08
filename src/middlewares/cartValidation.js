@@ -16,6 +16,8 @@ async function cartValidation(req, res, next) {
     return res.status(404).send("Algo deu errado, refaça seu login!");
   }
 
+  res.locals.cart = cart;
+
   next();
 }
 
