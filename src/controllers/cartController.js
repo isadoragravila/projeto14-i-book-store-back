@@ -26,6 +26,16 @@ export async function insertProduct(req, res) {
     }
 };
 
+export async function getCart(req, res) {
+    try {
+        const userId = res.locals.userId;
+        const cart = await db.collection('carts').findOne({ userId: new objectId(userId) });
+        return res.status(200).send(cart.products);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+
 export async function insertSale(req, res) {
     try {
         const userId = res.locals.userId;
