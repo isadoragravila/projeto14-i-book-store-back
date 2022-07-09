@@ -6,6 +6,8 @@ export async function insertProduct(req, res) {
         const { productId } = req.body;
         const cart = res.locals.cart;
 
+        const product = await db.collection('products').findOne({ _id: new objectId(productId) });
+
         if (cart.products.find(item => item.productId === productId)) {
             await db.collection('carts').updateOne(
                 { userId: new objectId(userId) },
@@ -17,7 +19,7 @@ export async function insertProduct(req, res) {
 
         await db.collection('carts').updateOne(
             { userId: new objectId(userId) },
-            { $push: { products: { productId, quantity: 1 } } }
+            { $push: { products: { productId, price: product.price, quantity: 1 } } }
         );
 
         return res.sendStatus(200);
@@ -54,10 +56,27 @@ export async function cleanCart(req, res) {
         const userId = res.locals.userId;
 
         await db.collection('carts').updateOne(
-            { userId },
+            { userId: new objectId(userId) },
             { $set: { products: [] } }
         );
 
+        return res.sendStatus(200);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+
+export async function changeInventory(req, res) {
+    try {
+        const products = req.body;
+
+        for (let i = 0; i < products.length; i++) {
+            await db.collection('products').updateOne(
+                { _id: new objectId(products[i].productId) },
+                { $inc: { quantity: -(products[i].quantity) } }
+            );
+        }
+        
         return res.sendStatus(200);
     } catch (error) {
         res.status(500).send(error);
