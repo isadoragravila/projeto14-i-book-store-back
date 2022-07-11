@@ -1,4 +1,4 @@
-import { insertProduct, insertSale, cleanCart, getCart, changeInventory, deleteProductFromCart } from "../controllers/cartController.js";
+import { insertProduct, insertSale, cleanCart, getCart, changeInventory, deleteProductFromCart, deleteProduct } from "../controllers/cartController.js";
 import { Router } from 'express';
 import cartValidation from '../middlewares/cartValidation.js'
 import userValidation from "../middlewares/userValidation.js";
@@ -7,9 +7,10 @@ import inventoryValidation from "../middlewares/inventoryValidation.js";
 
 const router = Router();
 
-router.put('/cart', userValidation, cartValidation, insertProduct);
+router.put('/cart/add-one', userValidation, cartValidation, insertProduct);
 router.get('/cart', userValidation, getCart);
-router.put('/cart/delete', userValidation, cartValidation, deleteProductFromCart);
+router.put('/cart/delete-all', userValidation, cartValidation, deleteProductFromCart);
+router.put('/cart/delete-one', userValidation, cartValidation, deleteProduct);
 
 
 router.post('/sales', userValidation, saleValidation, insertSale);

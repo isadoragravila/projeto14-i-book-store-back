@@ -107,3 +107,29 @@ export async function deleteProductFromCart(req, res) {
     res.status(500).send(error);
   }
 }
+
+export async function deleteProduct(req, res) {
+  try {
+    const userId = res.locals.userId;
+    const { productId } = req.body;
+
+    await db.collection('carts').updateOne(
+      { userId: new objectId(userId) },
+      { $inc: { 'products.$[element].quantity': -1 } },
+      { arrayFilters: [{ 'element.productId': productId }] },
+    );
+
+    const cart = await db.collection('carts').findOne({ userId: new objectId(userId) });
+    
+    if (cart.products.find((item) => item.productId === productId && item.quantity === 0)) {
+      console.log('aq')
+      await db.collection('carts').updateOne(
+        { userId: new objectId(userId) },
+        { $pull: { products: { productId } } },
+      );
+    }
+    return res.sendStatus(200)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
