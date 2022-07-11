@@ -10,7 +10,7 @@ export async function getProducts(req, res) {
     }
 }
 
-export async function getSingleProuct(req, res) {
+export async function getSingleProduct(req, res) {
     try {
         const id = req.params.idProduct;
         const product = await db.collection('products').findOne({ _id: new objectId(id) });

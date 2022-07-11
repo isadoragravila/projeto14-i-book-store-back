@@ -1,4 +1,4 @@
-import { insertProduct, insertSale, cleanCart, getCart, changeInventory } from "../controllers/cartController.js";
+import { insertProduct, insertSale, cleanCart, getCart, changeInventory, deleteProductFromCart } from "../controllers/cartController.js";
 import { Router } from 'express';
 import cartValidation from '../middlewares/cartValidation.js'
 import userValidation from "../middlewares/userValidation.js";
