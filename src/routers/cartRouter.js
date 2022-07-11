@@ -9,6 +9,9 @@ const router = Router();
 
 router.put('/cart', userValidation, cartValidation, insertProduct);
 router.get('/cart', userValidation, getCart);
+router.put('/cart/delete', userValidation, cartValidation, deleteProductFromCart);
+
+
 router.post('/sales', userValidation, saleValidation, insertSale);
 router.delete('/sales', userValidation, cleanCart);
 router.put('/inventory', inventoryValidation, changeInventory);
